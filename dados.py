@@ -12,5 +12,5 @@ def lanzar_dados():
     return dice_values
 
 # Función para obtener los valores actuales de los dados
-def obtenet_valores_actuales():
+def obtener_valores_actuales():
     return dice_values
