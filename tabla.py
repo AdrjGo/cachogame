@@ -1,5 +1,6 @@
 import pygame
 import sys
+from dados import lanzar_dados, obtenet_valores_actuales
 
 # Inicializar Pygame
 pygame.init()
@@ -40,6 +41,15 @@ def draw_grid(position):
             rect = pygame.Rect(x + col * CELL_SIZE, y + row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, WHITE, rect, 2)
 
+# Función para dibujar los dados con sus valores actuales
+def draw_dice(positions):
+    dice_values = obtenet_valores_actuales()
+    for i, pos in enumerate(positions):
+        rect = pygame.Rect(pos[0], pos[1], DICE_SIZE, DICE_SIZE)
+        pygame.draw.rect(screen, WHITE, rect, 2)
+        dice_text = font.render(str(dice_values[i]), True, WHITE)
+        screen.blit(dice_text, (pos[0] + DICE_SIZE // 4, pos[1] + DICE_SIZE // 4))
+
 # Bucle principal del juego
 running = True
 while running:
@@ -49,26 +59,17 @@ while running:
     draw_grid(PLAYER_GRID_POS)
     draw_grid(COMPUTER_GRID_POS)
 
-    # Dibujar los dados en disposición de pirámide
-    # Fila superior (3 dados) - Mover 5 píxeles a la izquierda
-    start_x_top = WIDTH // 2 - (DICE_SIZE + DICE_MARGIN) - 20 # Ajustar la posición hacia la izquierda
+    # Posiciones de los dados
+    start_x_top = WIDTH // 2 - (DICE_SIZE + DICE_MARGIN) - 20
     top_dice_positions = [(start_x_top + i * (DICE_SIZE + DICE_MARGIN), HEIGHT // 2 - DICE_SIZE) for i in range(3)]
-    
-    # Fila inferior (2 dados) - Centrar respecto a los tres dados de la fila superior
-    start_x_bottom = WIDTH // 2 - (DICE_SIZE + DICE_MARGIN // 2)  # Centrar respecto a los dados superiores
+    start_x_bottom = WIDTH // 2 - (DICE_SIZE + DICE_MARGIN // 2)
     bottom_dice_positions = [(start_x_bottom + i * (DICE_SIZE + DICE_MARGIN), HEIGHT // 2 + DICE_SIZE // 2) for i in range(2)]
+    dice_positions = top_dice_positions + bottom_dice_positions
 
-    # Dibujar los dados en la fila superior
-    for pos in top_dice_positions:
-        rect = pygame.Rect(pos[0], pos[1], DICE_SIZE, DICE_SIZE)
-        pygame.draw.rect(screen, WHITE, rect, 2)
+    # Dibujar los dados y sus valores actuales
+    draw_dice(dice_positions)
 
-    # Dibujar los dados en la fila inferior
-    for pos in bottom_dice_positions:
-        rect = pygame.Rect(pos[0], pos[1], DICE_SIZE, DICE_SIZE)
-        pygame.draw.rect(screen, WHITE, rect, 2)
-
-    # Dibujar el botón de "Lanzar dados" (más largo)
+    # Dibujar el botón de "Lanzar dados"
     pygame.draw.rect(screen, GRAY, button_rect)
     button_text = font.render("Lanzar dados", True, WHITE)
     screen.blit(button_text, (button_rect.x + 10, button_rect.y + 5))
@@ -79,7 +80,7 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if button_rect.collidepoint(event.pos):
-                print("Botón de lanzar dados presionado")
+                lanzar_dados()  # Lanza los dados al hacer clic en el botón
 
     # Actualizar la pantalla
     pygame.display.flip()
