@@ -6,7 +6,7 @@ import sys
 pygame.init()
 
 # Configuración de la ventana
-WIDTH, HEIGHT = 1000, 750
+WIDTH, HEIGHT = 1000, 900
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Juego de Cacho")
 
@@ -52,8 +52,8 @@ for i in range(6):
         pygame.draw.circle(dice_images[i], BLACK, (25, 75), 10)
         pygame.draw.circle(dice_images[i], BLACK, (75, 25), 10)
         pygame.draw.circle(dice_images[i], BLACK, (75, 75), 10)
-        pygame.draw.circle(dice_images[i], BLACK, (50, 50), 10)
-        pygame.draw.circle(dice_images[i], BLACK, (50, 25), 10)
+        pygame.draw.circle(dice_images[i], BLACK, (50, 73), 10)
+        pygame.draw.circle(dice_images[i], BLACK, (50, 23), 10)
 
 # Función para tirar los dados
 def roll_dice():
@@ -62,7 +62,7 @@ def roll_dice():
 # Función para mostrar los dados en la pantalla
 def draw_dice(dice, x, y):
     for i, die in enumerate(dice):
-        screen.blit(dice_images[die - 1], (x + i * 120, y))
+        screen.blit(dice_images[die - 1], (x + i * 120, 200))
 
 # Función para obtener la jugada y la puntuación según reglas
 def get_jugada_and_score(dice):
@@ -99,7 +99,7 @@ def get_jugada_and_score(dice):
     elif max_value == 5:
         return f"Quinas ({max_count})", max_count * 5
     elif max_value == 6:
-        return f"Señas ({max_count})", max_count * 6
+        return f"Senas ({max_count})", max_count * 6
 
     return "Nada", 0
 
@@ -110,13 +110,13 @@ def draw_text(text, x, y, color=BLACK, font=font):
 
 # Función para mostrar las opciones de jugadas en forma vertical
 def draw_jugada_options(dice):
-    options = ["Balas", "Tontos", "Trenes", "Cuadras", "Quinas", "Señas", "Escalera", "Full", "Póker"]
+    options = ["Balas", "Tontos", "Trenes", "Cuadras", "Quinas", "Senas", "Escalera", "Full", "Póker"]
     jugada, _ = get_jugada_and_score(dice)
     
     # Mostrar las opciones de jugadas en formato vertical
-    draw_text("Opciones de Jugada:", 50, 500, BLACK, font)
+    draw_text("Opciones de Jugada:", 50, 300, BLACK, font)
     for i, option in enumerate(options):
-        draw_text(f"{i+1}. {option}", 50, 530 + i * 30, BLACK, font_small)
+        draw_text(f"{i+1}. {option}", 50, 340 + i * 30, BLACK, font_small)
 
 # Función para el turno del jugador
 def player_turn():
